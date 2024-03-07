@@ -1,13 +1,25 @@
 function operate(a, sign, b) {
-  const operators = {
-    "+": (a, b) => add(a, b),
-    "-": (a, b) => subtract(a, b),
-  };
-
-  return sign[operators]();
+  let total;
+  switch (sign) {
+    case "+":
+      total = add(a, b);
+      break;
+    case "-":
+      total = subtract(a, b);
+      break;
+    case "*":
+      total = multiply(a, b);
+      break;
+    case "/":
+      total = divide(a, b);
+      break;
+    default:
+      return "Invalid";
+  }
+  return total;
 }
 
-console.log(operate(1, "+", 2));
+console.log(operate(0.1, "+", 0.2));
 
 function add(a, b) {
   return a + b;

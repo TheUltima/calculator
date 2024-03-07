@@ -17,8 +17,12 @@ body > * {
   flex: 0 0 300px;
   display: flex;
   flex-flow: column nowrap;
-  gap: 32px;
+  gap: 20px;
   padding: 24px;
+}
+
+.screen {
+  font-size: 54px;
 }
 
 #calculator > * {
