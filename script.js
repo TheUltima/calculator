@@ -1,3 +1,5 @@
+const screen = document.querySelector(".screen");
+
 function operate(a, sign, b) {
   let total;
   switch (sign) {
@@ -38,7 +40,11 @@ function divide(a, b) {
 
 function displayInputs() {
   let display = "";
-  const screen = document.querySelector("screen");
 }
 
-function clearInputs() {}
+function clearInputs() {
+  screen.textContent = "";
+}
+
+const clearButton = document.querySelector("#clear");
+clearButton.addEventListener("click", clearInputs);

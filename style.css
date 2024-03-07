@@ -5,7 +5,6 @@ body {
   justify-content: center;
   align-items: center;
   background-color: rgb(34, 34, 34);
-  color: white;
 }
 
 body > * {
@@ -23,19 +22,25 @@ body > * {
   padding: 24px;
 }
 
+#calculator > * {
+  border: 2px solid red;
+}
+
 .screen {
+  display: flex;
+  align-items: center;
+  flex: 0 0 80px;
   font-size: 54px;
+  padding: 10px;
+  background-color: rgb(218, 218, 218);
   align-self: stretch;
 }
 
-#calculator > * {
-  border: 1px solid cyan;
-}
-
 button {
-  border-radius: 100px;
+  border-radius: 50%;
   border: none;
-  flex: 1 0 50px;
+  height: 80px;
+  flex: 0 0 80px;
   font-size: 24px;
   padding: 20px 0px;
   cursor: pointer;
@@ -56,6 +61,10 @@ button {
   display: flex;
 }
 
-.row > .zero {
-  flex: 1 0 100px;
+#row-5 > button {
+  flex: 0 0 80px;
+}
+
+#row-5 > .zero {
+  flex: 1 1 80px;
 }
