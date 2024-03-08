@@ -12,10 +12,10 @@ function operate(a, sign, b) {
     case "-":
       total = subtract(a, b);
       break;
-    case "*":
+    case "X":
       total = multiply(a, b);
       break;
-    case "/":
+    case "÷":
       total = divide(a, b);
       break;
     default:
@@ -45,7 +45,11 @@ function clearDisplay() {
   screen.textContent = "";
 }
 
-function displayInputs() {}
+function displayInputs(content) {
+  screen.textContent += `${content}`;
+
+  return screen.textContent;
+}
 
 function clearInputs() {
   currentNum = undefined;
@@ -57,16 +61,24 @@ function clearInputs() {
 const clearButton = document.querySelector("#clear");
 clearButton.addEventListener("click", clearInputs);
 
-const multiplyButton = document.querySelector("#multiply");
-multiplyButton.addEventListener("click", () => {
-  if (!currentNum) {
-    currentNum = parseInt(screen.textContent);
-  }
-  operator = "*";
-  screen.textContent = "*";
+//<------------------------------------------->
+
+const operatorButtons = document.querySelectorAll(".operator");
+
+operatorButtons.forEach((button) => {
+  const operatorButton = button.textContent;
+
+  button.addEventListener("click", () => {
+    const currentDisplay = screen.textContent;
+
+    if (!currentNum) {
+      currentNum = parseInt(screen.textContent);
+    }
+    screen.textContent = operatorButton;
+  });
 });
 
-//<-------------------------------------------->
+//<------------------------------------------->
 
 const numberButtons = document.querySelectorAll(".num");
 
@@ -76,11 +88,15 @@ numberButtons.forEach((button) => {
   button.addEventListener("click", () => {
     const currentDisplay = screen.textContent;
 
+    //isNaN detects numbers & floats as strings. Used to detect operators.
     if (isNaN(currentDisplay)) {
+      operator = screen.textContent;
+      console.log(operator);
+
       clearDisplay();
-      screen.textContent += buttonNumber;
+      currentNum = displayInputs(buttonNumber); //string
     } else {
-      screen.textContent += buttonNumber;
+      currentNum = displayInputs(buttonNumber); //string
     }
   });
 });
