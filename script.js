@@ -3,43 +3,25 @@ let currentNum;
 let nextNum;
 let operator;
 
-function operate(a, sign, b) {
-  let total;
-  switch (sign) {
-    case "+":
-      total = add(a, b);
-      break;
-    case "-":
-      total = subtract(a, b);
-      break;
-    case "X":
-      total = multiply(a, b);
-      break;
-    case "÷":
-      total = divide(a, b);
-      break;
-    default:
-      return "Invalid";
-  }
-  return total;
-}
+const doOperation = (function () {
+  const operateObj = {
+    "+": (a, b) => a + b,
+    "-": (a, b) => a - b,
+    X: (a, b) => a * b,
+    "÷": (a, b) => {
+      if (b == 0) {
+        return "ERROR!";
+      } else return a / b;
+    },
+  };
 
-console.log(operate(0.1, "+", 0.2));
+  return function (a, sign, b) {
+    const operate = operateObj[sign];
+    return operate(a, b);
+  };
+})();
 
-function add(a, b) {
-  return a + b;
-}
-function subtract(a, b) {
-  return a - b;
-}
-function multiply(a, b) {
-  return a * b;
-}
-function divide(a, b) {
-  if (b === 0) {
-    return "ERROR!";
-  } else return a / b;
-}
+console.log(doOperation(5, "X", 0.7));
 
 function clearDisplay() {
   screen.textContent = "";
@@ -88,7 +70,7 @@ numberButtons.forEach((button) => {
   button.addEventListener("click", () => {
     const currentDisplay = screen.textContent;
 
-    //isNaN detects numbers & floats as strings. Used to detect operators.
+    //isNaN detects numbers & floats as strings. Used here detect operators.
     if (isNaN(currentDisplay)) {
       operator = screen.textContent;
       console.log(operator);
