@@ -1,5 +1,5 @@
 const screen = document.querySelector(".screen");
-let currentNum;
+let firstNum;
 let nextNum;
 let operator;
 
@@ -10,6 +10,7 @@ const doOperation = (function () {
     X: (a, b) => a * b,
     "÷": (a, b) => {
       if (b == 0) {
+        clearInputs();
         return "ERROR!";
       } else return a / b;
     },
@@ -27,6 +28,10 @@ function clearDisplay() {
   screen.textContent = "";
 }
 
+function parseDisplay() {
+  return parseInt(screen.textContent);
+}
+
 function displayInputs(content) {
   screen.textContent += `${content}`;
 
@@ -34,14 +39,38 @@ function displayInputs(content) {
 }
 
 function clearInputs() {
-  currentNum = undefined;
-  nextNum = undefined;
-  operator;
-  screen.textContent = "";
+  firstNum = null;
+  nextNum = null;
+  operator = null;
 }
 
 const clearButton = document.querySelector("#clear");
-clearButton.addEventListener("click", clearInputs);
+clearButton.addEventListener("click", () => {
+  clearInputs();
+  screen.textContent = "Clear";
+});
+
+//<------------------------------------------->
+
+const equalsButton = document.querySelector("#equals");
+
+equalsButton.addEventListener("click", () => {
+  let invalidNum = isNaN(parseDisplay());
+
+  if (invalidNum) {
+    screen.textContent = "ERROR!";
+    return;
+  }
+  if (!firstNum) {
+    return;
+  }
+
+  nextNum = parseDisplay();
+
+  screen.textContent = doOperation(firstNum, operator, nextNum);
+
+  clearInputs();
+});
 
 //<------------------------------------------->
 
@@ -52,11 +81,14 @@ operatorButtons.forEach((button) => {
 
   button.addEventListener("click", () => {
     const currentDisplay = screen.textContent;
+    operator = operatorButton;
 
-    if (!currentNum) {
-      currentNum = parseInt(screen.textContent);
+    if (!firstNum) {
+      firstNum = parseDisplay();
+      console.log(firstNum);
     }
-    screen.textContent = operatorButton;
+
+    screen.textContent = operator;
   });
 });
 
@@ -68,17 +100,12 @@ numberButtons.forEach((button) => {
   const buttonNumber = button.textContent;
 
   button.addEventListener("click", () => {
-    const currentDisplay = screen.textContent;
+    const display = screen.textContent;
 
-    //isNaN detects numbers & floats as strings. Used here detect operators.
-    if (isNaN(currentDisplay)) {
-      operator = screen.textContent;
-      console.log(operator);
-
+    if (isNaN(display)) {
       clearDisplay();
-      currentNum = displayInputs(buttonNumber); //string
-    } else {
-      currentNum = displayInputs(buttonNumber); //string
     }
+
+    screen.textContent += buttonNumber;
   });
 });

@@ -20,7 +20,7 @@ body > * {
   border-radius: 24px;
 }
 
-/*Width is arbitrary since I can't figure out how to adjust width to expand when items overflow*/
+/*Width is arbitrary since I can't figure out how to adjust its width to the size of the row of buttons*/
 #calculator {
   width: 355px;
   background-color: black;
@@ -44,7 +44,7 @@ body > * {
   overflow: hidden;
   height: 60px;
   color: white;
-  font-size: 60px;
+  font-size: 30px;
 }
 
 button {
