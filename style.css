@@ -26,8 +26,10 @@ body > * {
 
 /*Total width of the calculator is 400px*/
 #calculator {
-  flex: 0 0 360px;
-  display: flex;
+  background-color: black;
+  flex: 1 1 auto;
+  max-width: max-content;
+  display: inline-flex;
   flex-flow: column nowrap;
   gap: 20px;
   margin-bottom: 200px;
@@ -52,9 +54,22 @@ button {
   border-radius: 50%;
   border: none;
   flex: 0 0 var(--button-width);
-  font-size: 24px;
+  font-size: 32px;
   padding: 20px 0px;
   cursor: pointer;
+}
+
+.dark-grey {
+  background-color: rgb(53, 53, 53);
+  color: white;
+}
+.grey {
+  background-color: rgb(165, 165, 165);
+}
+
+.orange {
+  background-color: orange;
+  color: white;
 }
 
 .button-panel {
@@ -80,5 +95,5 @@ button {
 #row-5 > .zero {
   border-radius: 50px;
   width: var(--two-button-width);
-  flex: 0 1 auto;
+  flex: 0 0 auto;
 }
