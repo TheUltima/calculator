@@ -16,16 +16,10 @@ body {
 }
 
 body > * {
-  border: 2px solid rgb(255, 255, 255);
-  border-radius: 24px;
-}
-body > * {
-  border: 2px solid rgb(255, 255, 255);
   border-radius: 24px;
 }
 
 #calculator {
-  overflow: hidden;
   width: 355px;
   background-color: black;
   display: inline-flex;
@@ -35,13 +29,17 @@ body > * {
   padding: 24px;
 }
 
+.display {
+  padding: 12px;
+  background-color: rgb(0, 0, 0);
+}
+
 .screen {
-  display: flex;
-  align-items: center;
-  flex: 0 0 80px;
-  font-size: 54px;
-  padding: 10px;
-  background-color: rgb(218, 218, 218);
+  text-align: end;
+  height: 60px;
+  color: white;
+  overflow: hidden;
+  font-size: 60px;
 }
 
 button {
@@ -51,7 +49,10 @@ button {
   font-size: 32px;
   padding: 20px 0px;
   cursor: pointer;
-  border: 1px solid orange;
+}
+
+#divide {
+  font-size: 36px;
 }
 
 .dark-grey {
@@ -77,14 +78,13 @@ button {
 
 .button-panel > .row {
   min-width: fit-content;
-  border: 2px solid blue;
   flex: 1 1 auto;
   display: flex;
   gap: var(--button-gap);
   height: var(--button-width);
 }
 
-#row-5 > .zero {
+#row-5 > #zero {
   text-align: start;
   padding-left: 30px;
   border-radius: 50px;

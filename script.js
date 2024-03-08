@@ -1,4 +1,7 @@
 const screen = document.querySelector(".screen");
+let currentNum;
+let nextNum;
+let operator;
 
 function operate(a, sign, b) {
   let total;
@@ -38,18 +41,46 @@ function divide(a, b) {
   } else return a / b;
 }
 
-function displayInputs() {
-  let display = "";
+function clearDisplay() {
+  screen.textContent = "";
 }
 
+function displayInputs() {}
+
 function clearInputs() {
+  currentNum = undefined;
+  nextNum = undefined;
+  operator;
   screen.textContent = "";
 }
 
 const clearButton = document.querySelector("#clear");
 clearButton.addEventListener("click", clearInputs);
 
-const num7 = document.querySelector("#seven");
-num7.addEventListener("click", () => {
-  screen.textContent += 7;
+const multiplyButton = document.querySelector("#multiply");
+multiplyButton.addEventListener("click", () => {
+  if (!currentNum) {
+    currentNum = parseInt(screen.textContent);
+  }
+  operator = "*";
+  screen.textContent = "*";
+});
+
+//<-------------------------------------------->
+
+const numberButtons = document.querySelectorAll(".num");
+
+numberButtons.forEach((button) => {
+  const buttonNumber = button.textContent;
+
+  button.addEventListener("click", () => {
+    const currentDisplay = screen.textContent;
+
+    if (isNaN(currentDisplay)) {
+      clearDisplay();
+      screen.textContent += buttonNumber;
+    } else {
+      screen.textContent += buttonNumber;
+    }
+  });
 });
