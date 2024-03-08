@@ -51,5 +51,5 @@ clearButton.addEventListener("click", clearInputs);
 
 const num7 = document.querySelector("#seven");
 num7.addEventListener("click", () => {
-  screen.textContent = 7;
+  screen.textContent += 7;
 });

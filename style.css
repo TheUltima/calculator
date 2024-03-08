@@ -24,20 +24,15 @@ body > * {
   border-radius: 24px;
 }
 
-/*Total width of the calculator is 400px*/
 #calculator {
+  overflow: hidden;
+  width: 355px;
   background-color: black;
-  flex: 1 1 auto;
-  max-width: max-content;
   display: inline-flex;
   flex-flow: column nowrap;
   gap: 20px;
   margin-bottom: 200px;
   padding: 24px;
-}
-
-#calculator > * {
-  border: 2px solid red;
 }
 
 .screen {
@@ -47,7 +42,6 @@ body > * {
   font-size: 54px;
   padding: 10px;
   background-color: rgb(218, 218, 218);
-  align-self: stretch;
 }
 
 button {
@@ -57,6 +51,7 @@ button {
   font-size: 32px;
   padding: 20px 0px;
   cursor: pointer;
+  border: 1px solid orange;
 }
 
 .dark-grey {
@@ -74,25 +69,24 @@ button {
 
 .button-panel {
   display: flex;
+  flex: 1 1 400px;
+  min-width: fit-content;
   flex-flow: column nowrap;
   gap: var(--button-gap);
 }
 
-.button-panel > * {
+.button-panel > .row {
+  min-width: fit-content;
+  border: 2px solid blue;
+  flex: 1 1 auto;
   display: flex;
   gap: var(--button-gap);
-}
-
-.row {
-  display: flex;
-  min-height: var(--button-width);
-}
-
-#row-5 > button {
-  flex: 0 0 var(--button-width);
+  height: var(--button-width);
 }
 
 #row-5 > .zero {
+  text-align: start;
+  padding-left: 30px;
   border-radius: 50px;
   width: var(--two-button-width);
   flex: 0 0 auto;
