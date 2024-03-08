@@ -1,3 +1,11 @@
+:root {
+  --button-width: 80px;
+  --button-gap: 10px;
+  --two-button-width: calc(
+    2 * var(--button-width) + var(--button-gap)
+  ); /*Take space of two buttons + their gaps*/
+}
+
 body {
   display: flex;
   margin: 0;
@@ -11,10 +19,14 @@ body > * {
   border: 2px solid rgb(255, 255, 255);
   border-radius: 24px;
 }
+body > * {
+  border: 2px solid rgb(255, 255, 255);
+  border-radius: 24px;
+}
 
 /*Total width of the calculator is 400px*/
 #calculator {
-  flex: 0 0 400px;
+  flex: 0 0 360px;
   display: flex;
   flex-flow: column nowrap;
   gap: 20px;
@@ -39,8 +51,7 @@ body > * {
 button {
   border-radius: 50%;
   border: none;
-  height: 80px;
-  flex: 0 0 80px;
+  flex: 0 0 var(--button-width);
   font-size: 24px;
   padding: 20px 0px;
   cursor: pointer;
@@ -49,22 +60,25 @@ button {
 .button-panel {
   display: flex;
   flex-flow: column nowrap;
-  gap: 10px;
+  gap: var(--button-gap);
 }
 
 .button-panel > * {
   display: flex;
-  gap: 10px;
+  gap: var(--button-gap);
 }
 
 .row {
   display: flex;
+  min-height: var(--button-width);
 }
 
 #row-5 > button {
-  flex: 0 0 80px;
+  flex: 0 0 var(--button-width);
 }
 
 #row-5 > .zero {
-  flex: 1 1 80px;
+  border-radius: 50px;
+  width: var(--two-button-width);
+  flex: 0 1 auto;
 }

@@ -48,3 +48,8 @@ function clearInputs() {
 
 const clearButton = document.querySelector("#clear");
 clearButton.addEventListener("click", clearInputs);
+
+const num7 = document.querySelector("#seven");
+num7.addEventListener("click", () => {
+  screen.textContent = 7;
+});
