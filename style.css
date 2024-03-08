@@ -39,10 +39,13 @@ body > * {
 /*display and justify-content are flex & end, because text-align end overflows at the start*/
 .screen {
   display: flex;
+  word-wrap: break-word;
   align-items: center;
-  justify-content: end;
-  overflow: hidden;
+  text-align: end;
   height: 60px;
+  overflow: hidden;
+  justify-content: end;
+  flex: 1 1 auto;
   color: white;
   font-size: 30px;
 }
@@ -64,6 +67,7 @@ button {
   background-color: rgb(53, 53, 53);
   color: white;
 }
+
 .grey {
   background-color: rgb(165, 165, 165);
 }

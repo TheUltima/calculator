@@ -1,7 +1,5 @@
 const screen = document.querySelector(".screen");
-let firstNum;
-let nextNum;
-let operator;
+let firstNum, nextNum, operator;
 
 const doOperation = (function () {
   const operateObj = {
@@ -29,7 +27,7 @@ function clearDisplay() {
 }
 
 function parseDisplay() {
-  return parseInt(screen.textContent);
+  return parseFloat(screen.textContent);
 }
 
 function displayInputs(content) {
@@ -44,10 +42,36 @@ function clearInputs() {
   operator = null;
 }
 
+//<------------------------------------------>
+
+document.body.addEventListener("keydown", (e) => {
+  if (e.key === "Backspace") {
+    screen.textContent = screen.textContent.slice(0, this.length - 1);
+  }
+});
+
+//<------------------------------------------>
+
+const decimalButton = document.querySelector("#decimal");
+decimalButton.addEventListener("click", () => {
+  if (!screen.textContent.includes(".")) {
+    screen.textContent += ".";
+  }
+});
+
 const clearButton = document.querySelector("#clear");
 clearButton.addEventListener("click", () => {
   clearInputs();
   screen.textContent = "Clear";
+});
+
+const toggleSignsButton = document.querySelector("#toggle-sign");
+toggleSignsButton.addEventListener("click", () => {
+  if (screen.textContent.startsWith("-")) {
+    screen.textContent = screen.textContent.replace("-", "");
+  } else {
+    screen.textContent = "-".concat(screen.textContent);
+  }
 });
 
 //<------------------------------------------->
@@ -57,8 +81,8 @@ const equalsButton = document.querySelector("#equals");
 equalsButton.addEventListener("click", () => {
   let invalidNum = isNaN(parseDisplay());
 
-  if (invalidNum) {
-    screen.textContent = "ERROR!";
+  if (invalidNum || !operator) {
+    // screen.textContent = "ERROR!";
     return;
   }
   if (!firstNum) {
@@ -80,8 +104,12 @@ operatorButtons.forEach((button) => {
   const operatorButton = button.textContent;
 
   button.addEventListener("click", () => {
-    const currentDisplay = screen.textContent;
     operator = operatorButton;
+
+    if (!firstNum && isNaN(parseDisplay())) {
+      screen.textContent = "Input Numbers First!";
+      return;
+    }
 
     if (!firstNum) {
       firstNum = parseDisplay();
@@ -99,10 +127,21 @@ const numberButtons = document.querySelectorAll(".num");
 numberButtons.forEach((button) => {
   const buttonNumber = button.textContent;
 
-  button.addEventListener("click", () => {
-    const display = screen.textContent;
+  document.body.addEventListener("keydown", (e) => {
+    const numLength = screen.textContent.length;
 
-    if (isNaN(display)) {
+    if (e.key === buttonNumber && numLength < 18) {
+      if (isNaN(parseDisplay())) {
+        clearDisplay();
+      }
+      screen.textContent += buttonNumber;
+    }
+  });
+
+  button.addEventListener("click", () => {
+    const numLength = screen.textContent.length;
+
+    if (isNaN(parseDisplay())) {
       clearDisplay();
     }
 
