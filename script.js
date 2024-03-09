@@ -18,9 +18,7 @@ const doOperation = (function () {
     const operate = operateObj[sign];
     return operate(a, b);
   };
-})();
-
-console.log(doOperation(5, "X", 0.7));
+})(); //The parenthesis here means we can call doOperation without having to write extra parenthesis (since we're returning a function), i.e. doOperation()(a, sign, b)
 
 function clearDisplay() {
   screen.textContent = "";
@@ -42,17 +40,72 @@ function clearInputs() {
   operator = null;
 }
 
+function evaluate() {
+  let invalidNum = isNaN(parseDisplay());
+
+  if (invalidNum || !operator || !firstNum) {
+    return;
+  }
+
+  nextNum = parseDisplay();
+
+  screen.textContent = doOperation(firstNum, operator, nextNum);
+
+  clearInputs();
+}
+
+function setOperator() {
+  if (!firstNum && isNaN(parseDisplay())) {
+    screen.textContent = "Input Numbers First!";
+    return;
+  }
+
+  if (!firstNum) {
+    firstNum = parseDisplay();
+    console.log(firstNum);
+    console.log(operator);
+  }
+
+  screen.textContent = operator;
+}
+
 //<------------------------------------------>
 
 document.body.addEventListener("keydown", (e) => {
   if (e.key === "Backspace") {
     screen.textContent = screen.textContent.slice(0, this.length - 1);
   }
+
+  if (e.key === "=") {
+    evaluate();
+    return;
+  }
+
+  if (e.key === "+") {
+    operator = "+";
+    setOperator();
+  }
+
+  if (e.key === "-") {
+    operator = "-";
+    setOperator();
+  }
+
+  if (e.key === "X" || e.key === "*") {
+    operator = "X";
+    setOperator();
+  }
+
+  if (e.key === "/") {
+    operator = "÷";
+    setOperator();
+  }
 });
 
 //<------------------------------------------>
 
 const decimalButton = document.querySelector("#decimal");
+
 decimalButton.addEventListener("click", () => {
   if (!screen.textContent.includes(".")) {
     screen.textContent += ".";
@@ -78,23 +131,7 @@ toggleSignsButton.addEventListener("click", () => {
 
 const equalsButton = document.querySelector("#equals");
 
-equalsButton.addEventListener("click", () => {
-  let invalidNum = isNaN(parseDisplay());
-
-  if (invalidNum || !operator) {
-    // screen.textContent = "ERROR!";
-    return;
-  }
-  if (!firstNum) {
-    return;
-  }
-
-  nextNum = parseDisplay();
-
-  screen.textContent = doOperation(firstNum, operator, nextNum);
-
-  clearInputs();
-});
+equalsButton.addEventListener("click", evaluate);
 
 //<------------------------------------------->
 
@@ -106,17 +143,7 @@ operatorButtons.forEach((button) => {
   button.addEventListener("click", () => {
     operator = operatorButton;
 
-    if (!firstNum && isNaN(parseDisplay())) {
-      screen.textContent = "Input Numbers First!";
-      return;
-    }
-
-    if (!firstNum) {
-      firstNum = parseDisplay();
-      console.log(firstNum);
-    }
-
-    screen.textContent = operator;
+    setOperator();
   });
 });
 

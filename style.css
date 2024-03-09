@@ -39,7 +39,7 @@ body > * {
 /*display and justify-content are flex & end, because text-align end overflows at the start*/
 .screen {
   display: flex;
-  word-wrap: break-word;
+  word-break: break-all;
   align-items: center;
   text-align: end;
   height: 60px;
@@ -47,7 +47,7 @@ body > * {
   justify-content: end;
   flex: 1 1 auto;
   color: white;
-  font-size: 30px;
+  font-size: 28px;
 }
 
 button {
