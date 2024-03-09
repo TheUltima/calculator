@@ -1,11 +1,12 @@
 const screen = document.querySelector(".screen");
 let firstNum, nextNum, operator;
+let percentage;
 
 const doOperation = (function () {
   const operateObj = {
     "+": (a, b) => a + b,
     "-": (a, b) => a - b,
-    X: (a, b) => a * b,
+    "X": (a, b) => a * b,
     "÷": (a, b) => {
       if (b == 0) {
         resetInputs();
@@ -18,7 +19,9 @@ const doOperation = (function () {
     const operate = operateObj[sign];
     return operate(a, b);
   };
-})(); //The parenthesis here means we can call doOperation without having to write extra parenthesis (since we're returning a function), i.e. doOperation()(a, sign, b)
+})();
+//^^ The parenthesis here means we can call doOperation without having to write
+//extra parenthesis (since we're returning a function), i.e. doOperation()(a, sign, b)
 
 function clearDisplay() {
   screen.textContent = "";
@@ -28,7 +31,22 @@ function parseDisplay() {
   return parseFloat(screen.textContent);
 }
 
-function appendInput(content) {
+function togglePercent() {
+  if (isNaN(parseDisplay())) {
+    return;
+  }
+
+  //Simple toggle. Must be below the parseDisplay above or else it changes the boolean of percentage
+  percentage = !percentage;
+
+  if (percentage) {
+    screen.textContent = doOperation(parseDisplay(), "X", 0.01);
+  } else {
+    screen.textContent = doOperation(parseDisplay(), "X", 100);
+  }
+}
+
+function appendNumInput(content) {
   if (isNaN(parseDisplay())) {
     clearDisplay();
   }
@@ -36,6 +54,12 @@ function appendInput(content) {
   screen.textContent += `${content}`;
 
   return screen.textContent;
+}
+
+function appendDecimal() {
+  if (!screen.textContent.includes(".")) {
+    screen.textContent += ".";
+  }
 }
 
 function resetInputs() {
@@ -58,7 +82,9 @@ function evaluate() {
   resetInputs();
 }
 
-function setOperator() {
+function setOperator(sign) {
+  operator = sign;
+
   if (!firstNum && isNaN(parseDisplay())) {
     screen.textContent = "Input Numbers First!";
     return;
@@ -74,44 +100,39 @@ function setOperator() {
 //<------------------------------------------>
 
 document.body.addEventListener("keydown", (e) => {
-  if (e.key === "Backspace") {
-    screen.textContent = screen.textContent.slice(0, this.length - 1);
-  }
+  const inputObj = {
+    "Backspace": () => {
+      screen.textContent = screen.textContent.slice(0, this.length - 1);
+    },
+    "=": evaluate,
+    "+": () => setOperator("+"),
+    "-": () => setOperator("-"),
+    "X": () => setOperator("X"),
+    "/": () => setOperator("÷"),
+    ".": () => appendDecimal(),
+    "%": () => togglePercent(),
+    "C": () => {
+      resetInputs();
+      screen.textContent = "Clear";
+    },
+  };
 
-  if (e.key === "=" || e.key === "Enter") {
-    evaluate();
-  }
+  //Set some alternative inputs
+  inputObj["Enter"] = inputObj["="];
+  inputObj["*"] = inputObj["X"];
 
-  if (e.key === "+") {
-    operator = "+";
-    setOperator();
-  }
-
-  if (e.key === "-") {
-    operator = "-";
-    setOperator();
-  }
-
-  if (e.key === "X" || e.key === "*") {
-    operator = "X";
-    setOperator();
-  }
-
-  if (e.key === "/") {
-    operator = "÷";
-    setOperator();
+  if (inputObj[e.key]) {
+    return inputObj[e.key]();
   }
 });
 
 //<------------------------------------------>
 
 const decimalButton = document.querySelector("#decimal");
+decimalButton.addEventListener("click", appendDecimal);
 
-decimalButton.addEventListener("click", () => {
-  if (!screen.textContent.includes(".")) {
-    screen.textContent += ".";
-  }
-});
+const togglePercentButton = document.querySelector("#percent");
+togglePercentButton.addEventListener("click", togglePercent);
 
 const clearButton = document.querySelector("#clear");
 clearButton.addEventListener("click", () => {
@@ -142,9 +163,7 @@ operatorButtons.forEach((button) => {
   const operatorButton = button.textContent;
 
   button.addEventListener("click", () => {
-    operator = operatorButton;
-
-    setOperator();
+    setOperator(operatorButton);
   });
 });
 
@@ -157,11 +176,11 @@ numberButtons.forEach((button) => {
 
   document.body.addEventListener("keydown", (e) => {
     if (e.key === buttonNumber) {
-      appendInput(buttonNumber);
+      appendNumInput(buttonNumber);
     }
   });
 
   button.addEventListener("click", () => {
-    appendInput(buttonNumber);
+    appendNumInput(buttonNumber);
   });
 });
