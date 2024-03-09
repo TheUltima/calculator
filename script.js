@@ -8,7 +8,7 @@ const doOperation = (function () {
     X: (a, b) => a * b,
     "÷": (a, b) => {
       if (b == 0) {
-        clearInputs();
+        resetInputs();
         return "ERROR!";
       } else return a / b;
     },
@@ -28,13 +28,17 @@ function parseDisplay() {
   return parseFloat(screen.textContent);
 }
 
-function displayInputs(content) {
+function appendInput(content) {
+  if (isNaN(parseDisplay())) {
+    clearDisplay();
+  }
+
   screen.textContent += `${content}`;
 
   return screen.textContent;
 }
 
-function clearInputs() {
+function resetInputs() {
   firstNum = null;
   nextNum = null;
   operator = null;
@@ -51,7 +55,7 @@ function evaluate() {
 
   screen.textContent = doOperation(firstNum, operator, nextNum);
 
-  clearInputs();
+  resetInputs();
 }
 
 function setOperator() {
@@ -76,9 +80,8 @@ document.body.addEventListener("keydown", (e) => {
     screen.textContent = screen.textContent.slice(0, this.length - 1);
   }
 
-  if (e.key === "=") {
+  if (e.key === "=" || e.key === "Enter") {
     evaluate();
-    return;
   }
 
   if (e.key === "+") {
@@ -114,7 +117,7 @@ decimalButton.addEventListener("click", () => {
 
 const clearButton = document.querySelector("#clear");
 clearButton.addEventListener("click", () => {
-  clearInputs();
+  resetInputs();
   screen.textContent = "Clear";
 });
 
@@ -155,23 +158,12 @@ numberButtons.forEach((button) => {
   const buttonNumber = button.textContent;
 
   document.body.addEventListener("keydown", (e) => {
-    const numLength = screen.textContent.length;
-
-    if (e.key === buttonNumber && numLength < 18) {
-      if (isNaN(parseDisplay())) {
-        clearDisplay();
-      }
-      screen.textContent += buttonNumber;
+    if (e.key === buttonNumber) {
+      appendInput(buttonNumber);
     }
   });
 
   button.addEventListener("click", () => {
-    const numLength = screen.textContent.length;
-
-    if (isNaN(parseDisplay())) {
-      clearDisplay();
-    }
-
-    screen.textContent += buttonNumber;
+    appendInput(buttonNumber);
   });
 });
