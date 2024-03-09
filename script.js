@@ -66,8 +66,6 @@ function setOperator() {
 
   if (!firstNum) {
     firstNum = parseDisplay();
-    console.log(firstNum);
-    console.log(operator);
   }
 
   screen.textContent = operator;
